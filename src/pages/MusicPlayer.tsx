@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Music } from "lucide-react";
-import Header from "./Header";
-import EnhancedSearch from "./EnhancedSearch";
-import EnhancedTrackList from "./EnhancedTrackList";
-import EnhancedPlayerControls from "./EnhancedPlayerControls";
+import Header from "../components/Header";
+import EnhancedSearch from "../components/EnhancedSearch";
+import EnhancedTrackList from "../components/EnhancedTrackList";
+import EnhancedPlayerControls from "../components/EnhancedPlayerControls";
 import { Track } from "@/types/music";
 import {
   loadMusicFromIndexedFolder,
@@ -274,16 +274,32 @@ const MusicPlayer = () => {
   return (
     <motion.div
       className="min-h-screen transition-all duration-500"
-      style={{
-        background: `linear-gradient(135deg, ${primaryColor}40, ${primaryColor}20, transparent)`,
-        backdropFilter: "blur(10px)",
-      }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
+      <div
+        style={{
+          background: `linear-gradient(135deg, ${primaryColor}40, ${primaryColor}20, transparent)`,
+          backdropFilter: "blur(10px)",
+        }}
+        className="fixed inset-0 z-[-1] transition-all duration-500"
+      ></div>
       <Header onLoadFolder={handleLoadFolder} />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 pb-32">
+      <EnhancedPlayerControls
+        currentTrack={currentTrack}
+        isPlaying={isPlaying}
+        currentTime={currentTime}
+        duration={duration}
+        volume={volume}
+        onPlayPause={togglePlayPause}
+        onNext={playNext}
+        onPrevious={playPrevious}
+        onSeek={seek}
+        onVolumeChange={setVolume}
+      />
+
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 sm:py-8 space-y-3 sm:space-y-8 sm:pb-32">
         <EnhancedSearch
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
@@ -355,19 +371,6 @@ const MusicPlayer = () => {
           </motion.div>
         )}
       </main>
-
-      <EnhancedPlayerControls
-        currentTrack={currentTrack}
-        isPlaying={isPlaying}
-        currentTime={currentTime}
-        duration={duration}
-        volume={volume}
-        onPlayPause={togglePlayPause}
-        onNext={playNext}
-        onPrevious={playPrevious}
-        onSeek={seek}
-        onVolumeChange={setVolume}
-      />
 
       <audio
         ref={audioRef}

@@ -34,7 +34,7 @@ const EnhancedTrackList: React.FC<EnhancedTrackListProps> = ({
   if (tracks.length === 0) {
     return (
       <motion.div
-        className="flex flex-col items-center justify-center h-full text-muted-foreground"
+        className="flex flex-col items-center justify-center h-full text-muted-foreground px-4"
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
       >
@@ -48,10 +48,12 @@ const EnhancedTrackList: React.FC<EnhancedTrackListProps> = ({
             ease: "easeInOut",
           }}
         >
-          <Music className="w-16 h-16 mb-4" />
+          <Music className="w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 mb-4" />
         </motion.div>
-        <p className="text-lg font-medium">No {title.toLowerCase()} yet</p>
-        <p className="text-sm">
+        <p className="text-base sm:text-lg font-medium text-center">
+          No {title.toLowerCase()} yet
+        </p>
+        <p className="text-xs sm:text-sm text-center">
           Start by loading your music or searching online
         </p>
       </motion.div>
@@ -59,24 +61,24 @@ const EnhancedTrackList: React.FC<EnhancedTrackListProps> = ({
   }
 
   return (
-    <div className="h-full">
+    <div className="h-full w-full max-w-full">
       <motion.div
-        className="flex items-center gap-3 py-3"
+        className="flex items-center gap-2 sm:gap-3 py-2 sm:py-3 px-2 sm:px-4"
         initial={{ opacity: 0, x: -20 }}
         animate={{ opacity: 1, x: 0 }}
       >
         {icon}
-        <h2 className="text-lg font-semibold">
+        <h2 className="text-base sm:text-lg font-semibold truncate">
           {title} ({tracks.length})
         </h2>
       </motion.div>
 
       <ScrollArea
-        className="rounded-lg"
+        className="rounded-lg w-full"
         style={{ border: `1px solid ${primaryColor}50` }}
       >
         <AnimatePresence>
-          <div className="space-y-1 p-2 max-h-[calc(70vh-200px)]">
+          <div className="space-y-1 p-2 sm:p-3 md:p-4  sm:max-h-[calc(75vh-14rem)]">
             {tracks.map((track, index) => {
               const isCurrentTrack = currentTrack?.id === track.id;
 
@@ -90,10 +92,10 @@ const EnhancedTrackList: React.FC<EnhancedTrackListProps> = ({
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={() => onTrackSelect(track)}
-                  className={`group flex items-center space-x-4 p-3 rounded-xl cursor-pointer transition-all duration-300 ${
+                  className={`group flex items-center space-x-2 sm:space-x-3 md:space-x-4 p-2 sm:p-3 rounded-xl cursor-pointer transition-all duration-300 ${
                     isCurrentTrack
                       ? "shadow-lg border-2"
-                      : `hover:bg-muted/50 border-2 border-transparent`
+                      : `hover:bg-[${isCurrentTrack ? `${primaryColor}30` : `${primaryColor}10`}] border-2 border-transparent`
                   }`}
                   style={{
                     backgroundColor: isCurrentTrack
@@ -102,20 +104,25 @@ const EnhancedTrackList: React.FC<EnhancedTrackListProps> = ({
                     borderColor: isCurrentTrack
                       ? `${primaryColor}60`
                       : undefined,
+                    // hover: {
+                    //   backgroundColor: isCurrentTrack
+                    //     ? `${primaryColor}30`
+                    //     : `${primaryColor}10`,
+                    // },
                   }}
                 >
                   {/* Play Button & Cover */}
-                  <div className="relative w-12 h-12 flex items-center justify-center flex-shrink-0">
+                  <div className="relative w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center flex-shrink-0">
                     {track.coverArt ? (
                       <motion.img
                         src={track.coverArt}
                         alt={track.title}
-                        className="w-12 h-12 rounded-lg object-cover"
+                        className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg object-cover"
                         whileHover={{ scale: 1.1 }}
                       />
                     ) : (
                       <motion.div
-                        className="w-12 h-12 rounded-lg flex items-center justify-center"
+                        className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center"
                         style={{
                           background: `linear-gradient(135deg, ${primaryColor}, ${primaryColor}80)`,
                         }}
@@ -123,22 +130,21 @@ const EnhancedTrackList: React.FC<EnhancedTrackListProps> = ({
                       >
                         {isCurrentTrack ? (
                           isPlaying ? (
-                            <Pause className="w-5 h-5 text-white" />
+                            <Pause className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                           ) : (
-                            <Play className="w-5 h-5 text-white" />
+                            <Play className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                           )
                         ) : (
-                          <Music className="w-6 h-6 text-white" />
+                          <Music className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                         )}
                       </motion.div>
                     )}
-
                   </div>
 
                   {/* Track Info */}
                   <div className="flex-1 min-w-0">
                     <motion.h3
-                      className={`font-medium text-wrap transition-colors ${
+                      className={`font-medium text-sm sm:text-base text-wrap transition-colors ${
                         isCurrentTrack ? "font-semibold" : ""
                       }`}
                       style={{
@@ -147,7 +153,7 @@ const EnhancedTrackList: React.FC<EnhancedTrackListProps> = ({
                     >
                       {track.title}
                     </motion.h3>
-                    <p className="text-muted-foreground text-sm truncate">
+                    <p className="text-muted-foreground text-xs sm:text-sm text-wrap">
                       {track.artist}
                       {track.album && ` • ${track.album}`}
                     </p>
@@ -155,14 +161,14 @@ const EnhancedTrackList: React.FC<EnhancedTrackListProps> = ({
 
                   {/* Duration & Source */}
                   <div className="text-right flex-shrink-0">
-                    <p className="text-muted-foreground text-sm">
+                    <p className="text-muted-foreground text-xs sm:text-sm">
                       {formatDuration(track.duration)}
                     </p>
                     <div className="flex items-center gap-1 justify-end">
                       {track.source === "local" ? (
-                        <HardDrive className="w-3 h-3 text-blue-500" />
+                        <HardDrive className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-blue-500" />
                       ) : (
-                        <Globe className="w-3 h-3 text-green-500" />
+                        <Globe className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-green-500" />
                       )}
                       <span
                         className={`text-xs ${

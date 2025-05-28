@@ -28,7 +28,7 @@ const EnhancedSearch: React.FC<EnhancedSearchProps> = ({
       animate={{ opacity: 1, y: 0 }}
     >
       <div className="relative">
-        <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
+        <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground z-10 w-5 h-5" />
         <Input
           placeholder="Search local music or find new tracks online..."
           value={searchQuery}
@@ -38,7 +38,7 @@ const EnhancedSearch: React.FC<EnhancedSearchProps> = ({
           onKeyPress={(e) =>
             e.key === "Enter" && searchQuery.trim() && onJamendoSearch()
           }
-          className={`pl-12 pr-20 h-14 bg-background/50 backdrop-blur-sm border-2 rounded-full transition-all duration-300 ${
+          className={`pl-12 pr-20 h-12 bg-background/50 backdrop-blur-sm border-2 rounded-full transition-all duration-300 ${
             isFocused
               ? "border-opacity-100 shadow-lg"
               : "border-muted-foreground/20"
@@ -93,17 +93,6 @@ const EnhancedSearch: React.FC<EnhancedSearchProps> = ({
           )}
         </div>
       </div>
-
-      <motion.div
-        className="mt-2 text-center"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.2 }}
-      >
-        <p className="text-sm text-muted-foreground">
-          Search your local library or discover new music from Jamendo
-        </p>
-      </motion.div>
     </motion.div>
   );
 };
